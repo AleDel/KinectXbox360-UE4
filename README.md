@@ -1,2 +1,56 @@
 # KinectXbox360-UE4
 kinect Xbox 360 sdk 1.8 Plugin for Unreal Engine 4
+
+</br>
+## Example Usage
+
+
+### Get Sensor and Initialize
+---------------------------------------
+
+![Capture1](http://aledel.github.io/KinectXbox360-UE4/Images/Capture1.jpg)
+
+- Kinect node is a functionLibrary, this return the Class *UKinectManager*.
+- Get Sensor is a method of that class and returns an array of connected Kinect (*UKinectSensor* class),
+  in this example I take the first sensor found.
+- Now we can initialize the sensor:
+  - We need to pass a base material to apply later the rgb and deep textures.
+  - The BaseMaterial need a *Textureparameter* named **KinectTexture**. (used to apply the buffer when creating the instance dynamic material.)
+    
+    ![Capture4](http://aledel.github.io/KinectXbox360-UE4/Images/Capture4.JPG)
+
+
+
+
+### Get and Update Color and Depth Stream
+---------------------------------------
+
+![Capture2](http://aledel.github.io/KinectXbox360-UE4/Images/Capture2.jpg)
+
+- We use the method *UpdateColor* and *UpdateDepth*. (look at the picture above, also each material has been applied to Cube and Cube1.)
+
+
+
+### Update Skeleton Stream and get Joints Positions
+---------------------------------------
+
+![Capture3](http://aledel.github.io/KinectXbox360-UE4/Images/Capture3.jpg)
+
+- The function *UpdateSkeleton* set a structure array variable (skeletons detected). 
+  - Each structure contains two properties:
+    - *JointPosition* (array of Joints)
+    - *PlayerID* (Skeleton ID)
+
+
+
+
+<p float='left'>
+	<br>
+	<img width="100" src="http://aledel.github.io/KinectXbox360-UE4/Images/Capture5.JPG" alt="Capture5">
+	<br>
+	<br>
+	<br>
+</p>
+
+
+
