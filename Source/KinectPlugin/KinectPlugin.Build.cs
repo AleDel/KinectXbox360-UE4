@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.IO;
 
-public class Kinect : ModuleRules
+public class KinectPlugin : ModuleRules
 {
 
     private string ModulePath
     {
-        get { return Path.GetDirectoryName(RulesCompiler.GetModuleFilename(this.GetType().Name)); }
+        get { return ModuleDirectory; }
     }
 
     private string ThirdPartyPath
@@ -16,12 +16,12 @@ public class Kinect : ModuleRules
         get { return Path.GetFullPath(Path.Combine(ModulePath, "../../ThirdParty/")); }
     }
 
-	public Kinect(TargetInfo Target)
+	public KinectPlugin(TargetInfo Target)
 	{
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"Kinect/Public"
+				"KinectPlugin/Public"
 				
 				// ... add public include paths required here ...
 			}
@@ -30,7 +30,7 @@ public class Kinect : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"Kinect/Private",
+				"KinectPlugin/Private",
 				
 				// ... add other private include paths required here ...
 			}
@@ -75,7 +75,7 @@ public class Kinect : ModuleRules
         if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))
         {
             string PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? "amd64" : "x86";
-            PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, "v1.8/lib", PlatformString, "Kinect10.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, "v1.8","lib", PlatformString, "Kinect10.lib"));
 
             PublicIncludePaths.AddRange(
                 new string[] {

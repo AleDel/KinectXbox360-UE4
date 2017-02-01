@@ -10,9 +10,10 @@
 	"EnabledByDefault": false,
 	"Modules": [
 		{
-			"Name": "Kinect",
-			"Type": "Developer",
+			"Name": "KinectPlugin",
+			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
-	]
+	],
+	"CanContainContent" : "true"
 }

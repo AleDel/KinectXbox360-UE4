@@ -1,4 +1,4 @@
-#include "KinectPrivatePCH.h"
+#include "KinectPluginPrivatePCH.h"
 
 UKinectManager* UKinectBPFunctionLibrary::KinectManager(UObject* WorldContextObject)
 {

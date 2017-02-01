@@ -1,4 +1,4 @@
-#include "KinectPrivatePCH.h"
+#include "KinectPluginPrivatePCH.h"
 
 // Sets default values
 UKinectManager::UKinectManager()
@@ -24,11 +24,13 @@ TArray<class UKinectSensor*> UKinectManager::GetSensor()
 /// </summary>
 void UKinectManager::EnumerateSensors()
 {
-	UE_LOG(KinectLog, Warning, TEXT("ppppppppppppp"));
+	UE_LOG(KinectLog, Warning, TEXT("searching sensors..."));
     int iCount = 0;
     HRESULT hr = NuiGetSensorCount(&iCount);
     if (FAILED(hr))
     {
+		UE_LOG(KinectLog, Warning, TEXT("Error %s"), hr);
+		UE_LOG(KinectLog, Warning, TEXT("check drivers installed o conected kinects!!"));
         return;
     }
 

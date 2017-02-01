@@ -1,6 +1,6 @@
 // Some copyright should be here...
 
-#include "KinectPrivatePCH.h"
+#include "KinectPluginPrivatePCH.h"
 
 DEFINE_LOG_CATEGORY(KinectLog);
 
@@ -19,6 +19,8 @@ void FKinectModule::ShutdownModule()
 	UE_LOG(KinectLog, Warning, TEXT("Modulo Kinect Descargado"));
 }
 
-#undef LOCTEXT_NAMESPACE
+
 	
-IMPLEMENT_MODULE(FKinectModule, Kinect)
+IMPLEMENT_MODULE(FKinectModule, KinectPlugin)
+
+#undef LOCTEXT_NAMESPACE
