@@ -1,6 +1,12 @@
 # KinectXbox360-UE4
 kinect Xbox 360 sdk 1.8 Plugin for Unreal Engine 4
 
+## Installation
+- clone the code in the "Pluings" folder of your c++ ureal engine project (ex. myProject\Plugins\KinectXbox360-UE4)
+- run, compile project as usual
+
+## info drivers kinect xbox
+In microsoft windows should detect the device and install the drivers by itself.
 </br>
 ## Example Usage
 
