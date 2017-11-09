@@ -662,7 +662,7 @@ ReleaseFrame:
 void UKinectSensor::ProcessSkeleton(){
 
 	NUI_SKELETON_FRAME skeletonFrame = { 0 };
-
+	
 	HRESULT hr = mNuiSensor->NuiSkeletonGetNextFrame(0, &skeletonFrame);
 	if (FAILED(hr))
 	{
@@ -675,14 +675,21 @@ void UKinectSensor::ProcessSkeleton(){
 	FSkeletons.Empty();
 
 	TArray<FVector> TempJointPosition;
+	TArray<FVector> TempJointAbsoluteRotation;
 	TempJointPosition.Empty();
 
 	for (int i = 0; i < NUI_SKELETON_COUNT; i++)
 	{
-		NUI_SKELETON_TRACKING_STATE trackingState = skeletonFrame.SkeletonData[i].eTrackingState;
+		const NUI_SKELETON_DATA & skeleton = skeletonFrame.SkeletonData[i];
+		
+		NUI_SKELETON_TRACKING_STATE trackingState = skeleton.eTrackingState;
 
 		FSkelStruct newFSkelStruc;
 		newFSkelStruc.SetPlayerID(i);
+
+		
+		NUI_SKELETON_BONE_ORIENTATION boneOrientations[NUI_SKELETON_POSITION_COUNT];
+		NuiSkeletonCalculateBoneOrientations(&skeleton, boneOrientations);
 
 		if (NUI_SKELETON_TRACKED == trackingState)
 		{
@@ -691,15 +698,20 @@ void UKinectSensor::ProcessSkeleton(){
 			
 			for (int p = 0; p < NUI_SKELETON_POSITION_COUNT; ++p)
 			{
-				Vector4 hh = skeletonFrame.SkeletonData[i].SkeletonPositions[p];
+				Vector4 hh = skeleton.SkeletonPositions[p];
 				
 				TempJointPosition.Add(FVector(hh.z, hh.x*-1.0, hh.y));
+
+				//bone orientation
+				NUI_SKELETON_BONE_ORIENTATION & orientation = boneOrientations[p];
+				TempJointAbsoluteRotation.Add(FVector(	orientation.absoluteRotation.rotationQuaternion.x, 
+														orientation.absoluteRotation.rotationQuaternion.y, 
+														orientation.absoluteRotation.rotationQuaternion.z	));
 				
-				
-				//m_Points[i] = SkeletonToScreen(skel.SkeletonPositions[i], windowWidth, windowHeight);
 			}
 			
 			newFSkelStruc.SetSkelJointPosition(TempJointPosition);
+			newFSkelStruc.SetSkelRotationAbsoluteQuaternion(TempJointAbsoluteRotation);
 			FSkeletons.Add(newFSkelStruc);
 		}
 		else if (NUI_SKELETON_POSITION_ONLY == trackingState)
