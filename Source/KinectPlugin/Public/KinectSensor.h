@@ -26,7 +26,7 @@ struct FKinectTextureParams
 
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FSkelStruct
 {
 	GENERATED_USTRUCT_BODY()

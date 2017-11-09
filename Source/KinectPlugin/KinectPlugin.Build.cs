@@ -16,8 +16,8 @@ public class KinectPlugin : ModuleRules
         get { return Path.GetFullPath(Path.Combine(ModulePath, "../../ThirdParty/")); }
     }
 
-	public KinectPlugin(TargetInfo Target)
-	{
+	public KinectPlugin(ReadOnlyTargetRules Target) : base(Target)
+    {
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
