@@ -40,11 +40,12 @@ In microsoft windows should detect the device and install the drivers by itself.
 ### Update Skeleton Stream and get Joints Positions
 ---------------------------------------
 
-![Capture3](http://aledel.github.io/KinectXbox360-UE4/Images/Capture3.jpg)
+![Capture3](http://aledel.github.io/KinectXbox360-UE4/Images/kinect_bones_detail.jpg)
 
 - The function *UpdateSkeleton* set a structure array variable (skeletons detected). 
-  - Each structure contains two properties:
-    - *JointPosition* (array of Joints)
+  - Each structure contains:
+    - *JointPosition* (array Vector)
+    - *Rotation Bones* (array Rotation)
     - *PlayerID* (Skeleton ID)
 
 
@@ -52,7 +53,7 @@ In microsoft windows should detect the device and install the drivers by itself.
 
 <p float='left'>
 	<br>
-	<img width="100" src="http://aledel.github.io/KinectXbox360-UE4/Images/Capture5.JPG" alt="Capture5">
+	<img width="100" src="http://aledel.github.io/KinectXbox360-UE4/Images/bones.jpg" alt="bones">
 	<br>
 	<br>
 	<br>
