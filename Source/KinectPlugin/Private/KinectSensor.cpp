@@ -661,6 +661,9 @@ ReleaseFrame:
 
 void UKinectSensor::ProcessSkeleton(){
 
+
+	NUI_TRANSFORM_SMOOTH_PARAMETERS defaultParams = { 0.5f, 0.5f, 0.5f, 0.05f, 0.04f };
+
 	NUI_SKELETON_FRAME skeletonFrame = { 0 };
 	
 	HRESULT hr = mNuiSensor->NuiSkeletonGetNextFrame(0, &skeletonFrame);
@@ -670,13 +673,16 @@ void UKinectSensor::ProcessSkeleton(){
 	}
 
 	// smooth out the skeleton data
-	mNuiSensor->NuiTransformSmooth(&skeletonFrame, NULL);
+	mNuiSensor->NuiTransformSmooth(&skeletonFrame, &defaultParams);
 
 	FSkeletons.Empty();
-
+	
 	TArray<FVector> TempJointPosition;
-	TArray<FVector> TempJointAbsoluteRotation;
+	TArray<FRotator> TempJointAbsoluteRotation;
+	TArray<FRotator> TempJointHierarchicalRotation;
 	TempJointPosition.Empty();
+	TempJointAbsoluteRotation.Empty();
+	TempJointHierarchicalRotation.Empty();
 
 	for (int i = 0; i < NUI_SKELETON_COUNT; i++)
 	{
@@ -693,8 +699,6 @@ void UKinectSensor::ProcessSkeleton(){
 
 		if (NUI_SKELETON_TRACKED == trackingState)
 		{
-			// We're tracking the skeleton, draw it
-			//DrawSkeleton(skeletonFrame.SkeletonData[i], width, height);
 			
 			for (int p = 0; p < NUI_SKELETON_POSITION_COUNT; ++p)
 			{
@@ -704,14 +708,26 @@ void UKinectSensor::ProcessSkeleton(){
 
 				//bone orientation
 				NUI_SKELETON_BONE_ORIENTATION & orientation = boneOrientations[p];
-				TempJointAbsoluteRotation.Add(FVector(	orientation.absoluteRotation.rotationQuaternion.x, 
-														orientation.absoluteRotation.rotationQuaternion.y, 
-														orientation.absoluteRotation.rotationQuaternion.z	));
+
+				TempJointAbsoluteRotation.Add(
+					FQuat(orientation.absoluteRotation.rotationQuaternion.x,
+						orientation.absoluteRotation.rotationQuaternion.y,
+						orientation.absoluteRotation.rotationQuaternion.z,
+						orientation.absoluteRotation.rotationQuaternion.w).Rotator()
+				);
+
+				
+				TempJointHierarchicalRotation.Add(
+					FQuat(orientation.hierarchicalRotation.rotationQuaternion.x,
+						orientation.hierarchicalRotation.rotationQuaternion.y,
+						orientation.hierarchicalRotation.rotationQuaternion.z,
+						orientation.hierarchicalRotation.rotationQuaternion.w).Rotator());
 				
 			}
 			
 			newFSkelStruc.SetSkelJointPosition(TempJointPosition);
 			newFSkelStruc.SetSkelRotationAbsoluteQuaternion(TempJointAbsoluteRotation);
+			newFSkelStruc.SetSkelRotationHierarchicalQuaternion(TempJointHierarchicalRotation);
 			FSkeletons.Add(newFSkelStruc);
 		}
 		else if (NUI_SKELETON_POSITION_ONLY == trackingState)
