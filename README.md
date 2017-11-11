@@ -48,6 +48,8 @@ In microsoft windows should detect the device and install the drivers by itself.
     - *Rotation Bones* (array Rotation)
     - *PlayerID* (Skeleton ID)
 
+## Example bones
+[Kinect_Skel.zip](http://aledel.github.io/KinectXbox360-UE4/examples/Kinect_Skel.zip)
 
 <p float='left'>
 	<br>
